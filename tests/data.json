@@ -1,0 +1,26 @@
+[
+    {
+        "title": "To Kill a Mockingbird",
+        "author": "Harper Lee",
+        "publisher": "HarperCollins Publishers",
+        "summary": "A young girl named Scout navigates the prejudiced Alabama society with her brother, Jem, and their father, Atticus, who defends a black man accused of raping a white woman."
+    },
+    {
+        "title": "The Hitchhiker's Guide to the Galaxy",
+        "author": "Douglas Adams",
+        "publisher": "Pan Books",
+        "summary": "An unwitting human, Arthur Dent, embarks on a bizarre space adventure after Earth is demolished to make way for a galactic freeway, accompanied by his alien friend Ford Prefect."
+    },
+    {
+        "title": "Harry Potter and the Sorcerer's Stone",
+        "author": "J.K. Rowling",
+        "publisher": "Scholastic",
+        "summary": "Young wizard Harry Potter discovers his magical heritage and faces numerous challenges, including the malevolent wizard Voldemort, during his first year at Hogwarts School of Witchcraft and Wizardry."
+    },
+    {
+        "title": "Where the Wild Things Are",
+        "author": "Maurice Sendak",
+        "publisher": "Harper & Row",
+        "summary": "A young boy named Max sails to an island inhabited by ferocious wild creatures who crown him as their ruler, allowing him to unleash his wild side before returning home to the love of his family."
+    }
+]
