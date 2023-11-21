@@ -1,6 +1,6 @@
 import { KitBuilder } from "@google-labs/breadboard/kits";
-import { index } from "./lib/index";
-import { query } from "./lib/query";
+import { index } from "./lib/index.js";
+import { query } from "./lib/query.js";
 
 
 const builder = new KitBuilder({
