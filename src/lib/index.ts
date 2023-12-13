@@ -1,6 +1,7 @@
 import { InputValues } from "@google-labs/breadboard";
-import weaviate, { WeaviateClient } from "weaviate-ts-client";
 import fs from 'fs/promises';
+import { WeaviateClient } from "weaviate-ts-client";
+import { createWeaviateClient } from "./weaviate-client";
 
 type Document = Record<string, unknown>;
 
@@ -61,14 +62,14 @@ function countSuccessfulResults(results: Document[]) {
 export async function index(inputs: InputValues) {
     validateInputs(inputs);
 
-    const { dataFile, weaviateHost, className } = inputs;
+    const { dataFile, weaviateHost, className, weaviateApiKey } = inputs;
 
     const data: Document[] = await readDataFromFile(dataFile.toString());
 
-    const client = weaviate.client({
-        scheme: 'http',
-        host: weaviateHost.toString(),
-    })
+    const client = createWeaviateClient(
+        weaviateHost.toString(),
+        weaviateApiKey ? weaviateApiKey.toString() : undefined
+    );
 
     const batcher = batchObjects(client, data, className.toString());
 

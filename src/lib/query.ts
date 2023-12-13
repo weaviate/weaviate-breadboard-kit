@@ -1,5 +1,5 @@
 import { InputValues, OutputValues } from "@google-labs/breadboard";
-import weaviate from "weaviate-ts-client";
+import { createWeaviateClient } from "./weaviate-client";
 
 function validateInputs(inputs: InputValues) {
     if (!('weaviateHost' in inputs)) {
@@ -39,12 +39,12 @@ function validateInputs(inputs: InputValues) {
 export async function query(inputs: InputValues): Promise<{searchResults: OutputValues}> {
     validateInputs(inputs);
 
-    const { weaviateHost, query, alpha, className, fields } = inputs;
+    const { weaviateHost, query, alpha, className, fields, weaviateApiKey } = inputs;
 
-    const client = weaviate.client({
-        scheme: 'http',
-        host: weaviateHost.toString(),
-    });
+    const client = createWeaviateClient(
+        weaviateHost.toString(),
+        weaviateApiKey ? weaviateApiKey.toString() : undefined
+    );
 
     const q = client.graphql
         .get()
