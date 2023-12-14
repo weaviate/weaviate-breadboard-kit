@@ -11,8 +11,7 @@
   "author": "Mohd Shukri Hasan",
   "license": "ISC",
   "dependencies": {
-    "@google-labs/breadboard": "^0.4.1",
-    "jsonschema": "^1.4.1",
+    "@google-labs/breadboard": "^0.6.0",
     "weaviate-ts-client": "^1.6.0"
   },
   "devDependencies": {
