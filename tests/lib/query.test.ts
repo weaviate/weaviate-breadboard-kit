@@ -6,6 +6,7 @@ const weaviateTestManager = new WeaviateTestManager();
 
 beforeEach(async () => {
     await weaviateTestManager.deployWeaviate();
+    await weaviateTestManager.importData();
 
 });
 
@@ -33,8 +34,6 @@ describe("query node tests", () => {
 
         const expectedTitle = "Harry Potter and the Sorcerer's Stone";
 
-        await weaviateTestManager.importData();
-
         const board = new Board();
         const kit = board.addKit(WeaviateKit);
 
@@ -50,9 +49,45 @@ describe("query node tests", () => {
 
         const results = await board.runOnce(inputs);
         const actualTitle = results.searchResults[0].title;
-        
+
         expect(actualTitle).toEqual(expectedTitle);
     });
 
-    // Add more tests for the "query" node here
+    test("search using raw graphql query", async () => {
+        const inputs = {
+            weaviateHost: "localhost:8080",
+            palmApiKey: process.env.PALM_APIKEY,
+            rawQuery: `
+            {
+                Get {
+                  Book(where: {
+                    path: ["title"],
+                    operator: Equal,
+                    valueText: "To Kill a Mockingbird"
+                  }) {
+                      title
+                      summary
+                  }
+                }
+              }
+            `
+        };
+
+        const expectedTitle = "To Kill a Mockingbird";
+
+        const board = new Board();
+        const kit = board.addKit(WeaviateKit);
+
+        kit
+            .query()
+            .wire("weaviateHost<-", board.input())
+            .wire("PALM_KEY<-palmApiKey", board.input())
+            .wire("rawQuery<-", board.input())
+            .wire("->searchResults", board.output());
+
+        const results = await board.runOnce(inputs);
+        const actualTitle = results.searchResults[0].title;
+
+        expect(actualTitle).toEqual(expectedTitle);
+    });
 });
