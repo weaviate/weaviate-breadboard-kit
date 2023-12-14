@@ -9,17 +9,16 @@ services:
     - '8080'
     - --scheme
     - http
-    image: semitechnologies/weaviate:1.21.8
+    image: semitechnologies/weaviate:latest
     ports:
     - 8080:8080
     restart: on-failure:0
     environment:
-      PALM_APIKEY: $PALM_APIKEY
-      OPENAI_APIKEY: $OPENAI_APIKEY
       QUERY_DEFAULTS_LIMIT: 25
       AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: 'true'
       PERSISTENCE_DATA_PATH: '/var/lib/weaviate'
-      ENABLE_MODULES: 'text2vec-openai'
+      ENABLE_MODULES: 'text2vec-palm'
+      DEFAULT_VECTORIZER_MODULE: 'text2vec-palm'
       CLUSTER_HOSTNAME: 'node1'
       LOG_LEVEL: 'debug'
       LOG_FORMAT: 'text'

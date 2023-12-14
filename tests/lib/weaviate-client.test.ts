@@ -6,6 +6,8 @@ import { createWeaviateClient } from "../../src/lib/weaviate-client";
 let mockedClient: jest.SpiedFunction<(params: ConnectionParams) => WeaviateClient>;
 
 describe("createWeaviateClient", () => {
+    const palmApiKey = "testPalmApiKey";
+
     beforeAll(() => {
         mockedClient = jest.spyOn(weaviate, 'client');
         mockedClient.mockReturnValue({} as WeaviateClient);
@@ -14,7 +16,7 @@ describe("createWeaviateClient", () => {
     test("should default to http scheme if not specified in url", () => {
         const url = "localhost:8080";
 
-        createWeaviateClient(url);
+        createWeaviateClient(url, palmApiKey);
 
         expect(mockedClient).toHaveBeenCalledWith(
             expect.objectContaining({
@@ -27,7 +29,7 @@ describe("createWeaviateClient", () => {
     test("should follow the scheme in the URL if provided", () => {
         const url = "https://demo-breadboard-61k1eala.weaviate.network";
 
-        createWeaviateClient(url);
+        createWeaviateClient(url, palmApiKey);
 
         expect(mockedClient).toHaveBeenCalledWith(
             expect.objectContaining({
@@ -38,13 +40,13 @@ describe("createWeaviateClient", () => {
 
     test("should use the apiKey if provided", () => {
         const url = "https://demo-breadboard-61k1eala.weaviate.network";
-        const apiKey = "testApiKey";
+        const weaviateApiKey = "testApiKey";
 
-        createWeaviateClient(url, apiKey);
+        createWeaviateClient(url, palmApiKey, weaviateApiKey);
 
         expect(mockedClient).toHaveBeenCalledWith(
             expect.objectContaining({
-                apiKey: new ApiKey(apiKey)
+                apiKey: new ApiKey(weaviateApiKey)
             })
         );
     });

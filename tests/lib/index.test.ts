@@ -23,6 +23,7 @@ describe("index node tests", () => {
         const inputs = {
             dataFile: "./tests/data.json",
             weaviateHost: "localhost:8080",
+            palmApiKey: process.env.PALM_APIKEY,
             className: "Book",
         };
 
@@ -37,6 +38,7 @@ describe("index node tests", () => {
             .index()
             .wire("dataFile<-", board.input())
             .wire("weaviateHost<-", board.input())
+            .wire("PALM_KEY<-palmApiKey", board.input())
             .wire("className<-", board.input())
             .wire("->totalIndexedDocuments", board.output());
 

@@ -20,6 +20,7 @@ describe("query node tests", () => {
     test("search Harry Potter using vector search", async () => {
         const inputs = {
             weaviateHost: "localhost:8080",
+            palmApiKey: process.env.PALM_APIKEY,
             query: `
                 a novice sorcerer uncovering his mystical lineage 
                 while confronting adversities in his inaugural year 
@@ -40,6 +41,7 @@ describe("query node tests", () => {
         kit
             .query()
             .wire("weaviateHost<-", board.input())
+            .wire("PALM_KEY<-palmApiKey", board.input())
             .wire("query<-", board.input())
             .wire("alpha<-", board.input())
             .wire("className<-", board.input())

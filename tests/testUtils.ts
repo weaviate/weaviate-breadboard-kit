@@ -20,6 +20,7 @@ export class WeaviateTestManager {
         this.client = weaviate.client({
             scheme: this.scheme,
             host: this.host,
+            headers: { "X-Palm-Api-Key": process.env.PALM_APIKEY }
         });
     }
 

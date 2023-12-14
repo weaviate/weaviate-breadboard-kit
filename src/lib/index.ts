@@ -62,12 +62,13 @@ function countSuccessfulResults(results: Document[]) {
 export async function index(inputs: InputValues) {
     validateInputs(inputs);
 
-    const { dataFile, weaviateHost, className, weaviateApiKey } = inputs;
+    const { dataFile, weaviateHost, className, weaviateApiKey, PALM_KEY } = inputs;
 
     const data: Document[] = await readDataFromFile(dataFile.toString());
 
     const client = createWeaviateClient(
         weaviateHost.toString(),
+        PALM_KEY.toString(),
         weaviateApiKey ? weaviateApiKey.toString() : undefined
     );
 
