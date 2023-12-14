@@ -1,10 +1,16 @@
-import { InputValues, OutputValues } from "@google-labs/breadboard";
+import { InputValues, NodeValue, OutputValues } from "@google-labs/breadboard";
+import { GraphQLGetter, Raw } from "weaviate-ts-client";
 import { createWeaviateClient } from "./weaviate-client";
 
 function validateInputs(inputs: InputValues) {
     if (!('weaviateHost' in inputs)) {
         throw new Error('weaviateHost is missing in inputs');
     }
+
+    if ('rawQuery' in inputs) {
+        return
+    }
+
     if (!('query' in inputs)) {
         throw new Error('query is missing in inputs');
     }
@@ -36,10 +42,10 @@ function validateInputs(inputs: InputValues) {
  *
  * @async
  */
-export async function query(inputs: InputValues): Promise<{searchResults: OutputValues}> {
+export async function query(inputs: InputValues): Promise<{ searchResults: OutputValues }> {
     validateInputs(inputs);
 
-    const { weaviateHost, query, alpha, className, fields, weaviateApiKey, PALM_KEY } = inputs;
+    const { weaviateHost, query, alpha, className, fields, weaviateApiKey, PALM_KEY, rawQuery } = inputs;
 
     const client = createWeaviateClient(
         weaviateHost.toString(),
@@ -47,21 +53,29 @@ export async function query(inputs: InputValues): Promise<{searchResults: Output
         weaviateApiKey ? weaviateApiKey.toString() : undefined
     );
 
-    const q = client.graphql
-        .get()
-        .withClassName(className.toString())
-        .withFields(fields.toString())
-        .withHybrid({
-            query: query.toString(),
-            alpha: Number(alpha.valueOf())
-        });
+    let q: GraphQLGetter | Raw;
+    if (rawQuery) {
+        q = client.graphql.raw().withQuery(rawQuery.toString());
+    }
+    else {
+        q = client.graphql
+            .get()
+            .withClassName(className.toString())
+            .withFields(fields.toString())
+            .withHybrid({
+                query: query.toString(),
+                alpha: Number(alpha.valueOf())
+            });
+    }
+
 
     try {
+
         const results = await q.do();
 
-        const searchResults = results.data.Get[className.toString()];
+        const searchResults = Object.values(results.data.Get)[0] as Partial<Record<string, NodeValue>>;
 
-        return {"searchResults": searchResults};
+        return { "searchResults": searchResults };
 
     } catch (error) {
         console.error(`Failed to execute query: ${error}`);
