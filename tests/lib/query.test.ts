@@ -6,6 +6,7 @@ const weaviateTestManager = new WeaviateTestManager();
 
 beforeEach(async () => {
     await weaviateTestManager.deployWeaviate();
+    await weaviateTestManager.importData();
 
 });
 
@@ -32,8 +33,6 @@ describe("query node tests", () => {
         };
 
         const expectedTitle = "Harry Potter and the Sorcerer's Stone";
-
-        await weaviateTestManager.importData();
 
         const board = new Board();
         const kit = board.addKit(WeaviateKit);
