@@ -26,7 +26,7 @@ function validateInputs(inputs: InputValues) {
 }
 
 /**
- * Executes a query on a Weaviate instance using hybrid search and returns the search results.
+ * Executes a query on a Weaviate instance using hybrid search or a weaviate graphql query and returns the search results.
  *
  * @param {InputValues} inputs - The inputs for the query. This includes:
  *   - weaviateHost: The host address of the Weaviate instance.
@@ -34,6 +34,10 @@ function validateInputs(inputs: InputValues) {
  *   - alpha: The hybrid search's alpha parameter (between 0 and 1). 0 means BM25 search only, 1 means vector search only.
  *   - className: The name of the class in Weaviate to query.
  *   - fields: A string of fields to return in the query results.
+ *   - weaviateApiKey: The API key to use to authenticate with the Weaviate instance.
+ *   - PALM_KEY: The API key to use to authenticate to the Google PaLM API service.
+ *   - rawQuery: A weaviate graphql get query to execute instead of a hybrid search query. It is unnecessary to provide the 
+ *               other search inputs if this is provided.
  *
  * @returns {Promise<{searchResults: OutputValues}>} - A promise that resolves to an object containing the search results.
  *   The search results are the data returned by the Weaviate instance for the given query.
