@@ -39,10 +39,11 @@ function validateInputs(inputs: InputValues) {
 export async function query(inputs: InputValues): Promise<{searchResults: OutputValues}> {
     validateInputs(inputs);
 
-    const { weaviateHost, query, alpha, className, fields, weaviateApiKey } = inputs;
+    const { weaviateHost, query, alpha, className, fields, weaviateApiKey, PALM_KEY } = inputs;
 
     const client = createWeaviateClient(
         weaviateHost.toString(),
+        PALM_KEY.toString(),
         weaviateApiKey ? weaviateApiKey.toString() : undefined
     );
 

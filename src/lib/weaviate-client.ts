@@ -4,12 +4,13 @@ import weaviate, { ApiKey, WeaviateClient } from 'weaviate-ts-client';
  * Creates a Weaviate client with the specified Weaviate URL and optional API key.
  * 
  * @param weaviateUrl The URL of the Weaviate instance to connect to.
- * @param weaviateApiKey The API key to authenticate requests (optional).
+ * @param palmApiKey The API key to authenticate into the Google PaLM API service.
+ * @param weaviateApiKey The API key to authenticate into the weaviate instance (optional).
  * @returns The Weaviate client.
  *
  * @remarks If the protocol is not specified in the `weaviateUrl`, it defaults to `http`.
  */
-export function createWeaviateClient(weaviateUrl: string, weaviateApiKey?: string): WeaviateClient {
+export function createWeaviateClient(weaviateUrl: string, palmApiKey: string, weaviateApiKey?: string): WeaviateClient {
     if (!weaviateUrl.startsWith('http://') && !weaviateUrl.startsWith('https://')) {
         weaviateUrl = 'http://' + weaviateUrl;
     }
@@ -23,11 +24,13 @@ export function createWeaviateClient(weaviateUrl: string, weaviateApiKey?: strin
             scheme: scheme,
             host: host,
             apiKey: new ApiKey(weaviateApiKey),
+            headers: { "X-Palm-Api-Key": palmApiKey}
         });
     } else {
         return weaviate.client({
             scheme: scheme,
             host: host,
+            headers: { "X-Palm-Api-Key": palmApiKey}
         });
     }
 }
