@@ -1,6 +1,6 @@
 import { Board } from "@google-labs/breadboard";
-import WeaviateKit from "../../src/index";
-import { WeaviateTestManager } from "../testUtils";
+import WeaviateKit from "../../src/index.js";
+import { WeaviateTestManager } from "../testUtils.js";
 
 const weaviateTestManager = new WeaviateTestManager();
 
@@ -76,7 +76,7 @@ describe("query node tests", () => {
         const expectedTitle = "To Kill a Mockingbird";
 
         const board = new Board();
-        const kit = board.addKit(WeaviateKit);
+    const kit: WeaviateKit = board.addKit(WeaviateKit);
 
         kit
             .query()
