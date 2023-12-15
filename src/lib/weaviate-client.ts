@@ -1,5 +1,5 @@
-import weaviate, { ApiKey, WeaviateClient } from "weaviate-ts-client";
-
+import { default as weaviate } from "weaviate-ts-client";
+import { ApiKey, WeaviateClient } from "weaviate-ts-client";
 /**
  * Creates a Weaviate client with the specified Weaviate URL and optional API key.
  *
