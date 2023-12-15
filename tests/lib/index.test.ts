@@ -1,6 +1,6 @@
 import { Board } from "@google-labs/breadboard";
-import WeaviateKit from "../../src/index";
-import { WeaviateTestManager } from "../testUtils";
+import WeaviateKit from "../../src/index.js";
+import { WeaviateTestManager } from "../testUtils.js";
 import fs from 'fs/promises';
 
 
@@ -32,7 +32,7 @@ describe("index node tests", () => {
 
 
         const board = new Board();
-        const kit = board.addKit(WeaviateKit);
+    const kit: WeaviateKit = board.addKit(WeaviateKit);
 
         kit
             .index()
