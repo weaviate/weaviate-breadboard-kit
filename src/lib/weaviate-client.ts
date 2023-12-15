@@ -27,14 +27,14 @@ export function createWeaviateClient(
   const host = parsedUrl.host;
 
   if (weaviateApiKey) {
-    return weaviate.client({
+    return weaviate.default.client({
       scheme: scheme,
       host: host,
       apiKey: new ApiKey(weaviateApiKey),
       headers: { "X-Palm-Api-Key": palmApiKey },
     });
   } else {
-    return weaviate.client({
+    return weaviate.default.client({
       scheme: scheme,
       host: host,
       headers: { "X-Palm-Api-Key": palmApiKey },
