@@ -1,4 +1,4 @@
-import weaviate, { ApiKey, WeaviateClient } from 'weaviate-ts-client';
+import weaviate, { ApiKey, WeaviateClient } from "weaviate-ts-client";
 
 /**
  * Creates a Weaviate client with the specified Weaviate URL and optional API key.
@@ -13,14 +13,17 @@ import weaviate, { ApiKey, WeaviateClient } from 'weaviate-ts-client';
 export function createWeaviateClient(
   weaviateUrl: string,
   palmApiKey: string,
-  weaviateApiKey?: string
+  weaviateApiKey?: string,
 ): WeaviateClient {
-  if (!weaviateUrl.startsWith('http://') && !weaviateUrl.startsWith('https://')) {
-    weaviateUrl = 'http://' + weaviateUrl;
+  if (
+    !weaviateUrl.startsWith("http://") &&
+    !weaviateUrl.startsWith("https://")
+  ) {
+    weaviateUrl = "http://" + weaviateUrl;
   }
 
   const parsedUrl = new URL(weaviateUrl);
-  const scheme = parsedUrl.protocol.replace(':', '');
+  const scheme = parsedUrl.protocol.replace(":", "");
   const host = parsedUrl.host;
 
   if (weaviateApiKey) {
@@ -28,13 +31,13 @@ export function createWeaviateClient(
       scheme: scheme,
       host: host,
       apiKey: new ApiKey(weaviateApiKey),
-      headers: { 'X-Palm-Api-Key': palmApiKey },
+      headers: { "X-Palm-Api-Key": palmApiKey },
     });
   } else {
     return weaviate.client({
       scheme: scheme,
       host: host,
-      headers: { 'X-Palm-Api-Key': palmApiKey },
+      headers: { "X-Palm-Api-Key": palmApiKey },
     });
   }
 }

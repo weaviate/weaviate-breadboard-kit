@@ -1,31 +1,35 @@
-import { InputValues } from '@google-labs/breadboard';
-import fs from 'fs/promises';
-import { WeaviateClient } from 'weaviate-ts-client';
-import { createWeaviateClient } from './weaviate-client';
+import { InputValues } from "@google-labs/breadboard";
+import fs from "fs/promises";
+import { WeaviateClient } from "weaviate-ts-client";
+import { createWeaviateClient } from "./weaviate-client";
 
 type Document = Record<string, unknown>;
 
 // Function to validate inputs
 function validateInputs(inputs: InputValues) {
-  if (!('dataFile' in inputs)) {
-    throw new Error('dataFile is missing in inputs');
+  if (!("dataFile" in inputs)) {
+    throw new Error("dataFile is missing in inputs");
   }
-  if (!('weaviateHost' in inputs)) {
-    throw new Error('weaviateHost is missing in inputs');
+  if (!("weaviateHost" in inputs)) {
+    throw new Error("weaviateHost is missing in inputs");
   }
-  if (!('className' in inputs)) {
-    throw new Error('className is missing in inputs');
+  if (!("className" in inputs)) {
+    throw new Error("className is missing in inputs");
   }
 }
 
 // Function to read data from file
 async function readDataFromFile(dataFile: string) {
-  const data = JSON.parse(await fs.readFile(dataFile, 'utf-8'));
+  const data = JSON.parse(await fs.readFile(dataFile, "utf-8"));
   return data;
 }
 
 // Function to batch objects
-function batchObjects(client: WeaviateClient, data: Document[], className: string) {
+function batchObjects(
+  client: WeaviateClient,
+  data: Document[],
+  className: string,
+) {
   const batcher = client.batch.objectsBatcher();
   for (const d of data) {
     batcher.withObject({
@@ -38,7 +42,9 @@ function batchObjects(client: WeaviateClient, data: Document[], className: strin
 
 // Function to count successful results
 function countSuccessfulResults(results: Document[]) {
-  const successCount = results.filter((obj) => obj.result['status'] === 'SUCCESS').length;
+  const successCount = results.filter(
+    (obj) => obj.result["status"] === "SUCCESS",
+  ).length;
   return successCount;
 }
 
@@ -59,14 +65,15 @@ function countSuccessfulResults(results: Document[]) {
 export async function index(inputs: InputValues) {
   validateInputs(inputs);
 
-  const { dataFile, weaviateHost, className, weaviateApiKey, PALM_KEY } = inputs;
+  const { dataFile, weaviateHost, className, weaviateApiKey, PALM_KEY } =
+    inputs;
 
   const data: Document[] = await readDataFromFile(dataFile.toString());
 
   const client = createWeaviateClient(
     weaviateHost.toString(),
     PALM_KEY.toString(),
-    weaviateApiKey ? weaviateApiKey.toString() : undefined
+    weaviateApiKey ? weaviateApiKey.toString() : undefined,
   );
 
   const batcher = batchObjects(client, data, className.toString());

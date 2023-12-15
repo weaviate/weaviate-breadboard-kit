@@ -1,27 +1,27 @@
-import { InputValues, NodeValue, OutputValues } from '@google-labs/breadboard';
-import { GraphQLGetter, Raw } from 'weaviate-ts-client';
-import { createWeaviateClient } from './weaviate-client';
+import { InputValues, NodeValue, OutputValues } from "@google-labs/breadboard";
+import { GraphQLGetter, Raw } from "weaviate-ts-client";
+import { createWeaviateClient } from "./weaviate-client";
 
 function validateInputs(inputs: InputValues) {
-  if (!('weaviateHost' in inputs)) {
-    throw new Error('weaviateHost is missing in inputs');
+  if (!("weaviateHost" in inputs)) {
+    throw new Error("weaviateHost is missing in inputs");
   }
 
-  if ('rawQuery' in inputs) {
+  if ("rawQuery" in inputs) {
     return;
   }
 
-  if (!('query' in inputs)) {
-    throw new Error('query is missing in inputs');
+  if (!("query" in inputs)) {
+    throw new Error("query is missing in inputs");
   }
-  if (!('alpha' in inputs)) {
-    throw new Error('alpha is missing in inputs');
+  if (!("alpha" in inputs)) {
+    throw new Error("alpha is missing in inputs");
   }
-  if (!('className' in inputs)) {
-    throw new Error('className is missing in inputs');
+  if (!("className" in inputs)) {
+    throw new Error("className is missing in inputs");
   }
-  if (!('fields' in inputs)) {
-    throw new Error('fields is missing in inputs');
+  if (!("fields" in inputs)) {
+    throw new Error("fields is missing in inputs");
   }
 }
 
@@ -46,15 +46,26 @@ function validateInputs(inputs: InputValues) {
  *
  * @async
  */
-export async function query(inputs: InputValues): Promise<{ searchResults: OutputValues }> {
+export async function query(
+  inputs: InputValues,
+): Promise<{ searchResults: OutputValues }> {
   validateInputs(inputs);
 
-  const { weaviateHost, query, alpha, className, fields, weaviateApiKey, PALM_KEY, rawQuery } = inputs;
+  const {
+    weaviateHost,
+    query,
+    alpha,
+    className,
+    fields,
+    weaviateApiKey,
+    PALM_KEY,
+    rawQuery,
+  } = inputs;
 
   const client = createWeaviateClient(
     weaviateHost.toString(),
     PALM_KEY.toString(),
-    weaviateApiKey ? weaviateApiKey.toString() : undefined
+    weaviateApiKey ? weaviateApiKey.toString() : undefined,
   );
 
   let q: GraphQLGetter | Raw;
@@ -74,7 +85,9 @@ export async function query(inputs: InputValues): Promise<{ searchResults: Outpu
   try {
     const results = await q.do();
 
-    const searchResults = Object.values(results.data.Get)[0] as Partial<Record<string, NodeValue>>;
+    const searchResults = Object.values(results.data.Get)[0] as Partial<
+      Record<string, NodeValue>
+    >;
 
     return { searchResults: searchResults };
   } catch (error) {
