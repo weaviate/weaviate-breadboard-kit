@@ -1,6 +1,6 @@
 import { InputValues, NodeValue, OutputValues } from "@google-labs/breadboard";
 import { GraphQLGetter, Raw } from "weaviate-ts-client";
-import { createWeaviateClient } from "./weaviate-client";
+import { createWeaviateClient } from "./weaviate-client.js";
 
 function validateInputs(inputs: InputValues) {
   if (!("weaviateHost" in inputs)) {

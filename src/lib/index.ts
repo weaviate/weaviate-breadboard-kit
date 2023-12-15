@@ -1,7 +1,7 @@
 import { InputValues } from "@google-labs/breadboard";
 import fs from "fs/promises";
 import { WeaviateClient } from "weaviate-ts-client";
-import { createWeaviateClient } from "./weaviate-client";
+import { createWeaviateClient } from "./weaviate-client.js";
 
 type Document = Record<string, unknown>;
 
