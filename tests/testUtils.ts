@@ -1,7 +1,8 @@
 import fs from 'fs/promises';
-import weaviate, { WeaviateClient } from 'weaviate-ts-client';
 import { DockerComposeEnvironment, StartedDockerComposeEnvironment, Wait } from "testcontainers";
+import { WeaviateClient } from 'weaviate-ts-client';
 
+import { default as weaviate } from "weaviate-ts-client";
 
 /**
  * `WeaviateTestManager` is a utility class designed to manage a test instance of Weaviate for integration tests.
@@ -17,7 +18,7 @@ export class WeaviateTestManager {
      * Initializes a Weaviate client with the provided scheme and host.
      */
     public async createClient() {
-        this.client = weaviate.client({
+        this.client = weaviate.default.client({
             scheme: this.scheme,
             host: this.host,
             headers: { "X-Palm-Api-Key": process.env.PALM_APIKEY }

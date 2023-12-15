@@ -1,6 +1,6 @@
 import { jest } from '@jest/globals';
 import weaviate, { ApiKey, ConnectionParams, WeaviateClient } from 'weaviate-ts-client';
-import { createWeaviateClient } from "../../src/lib/weaviate-client";
+import { createWeaviateClient } from "../../src/lib/weaviate-client.js";
 
 // Mock the weaviate.client function
 let mockedClient: jest.SpiedFunction<(params: ConnectionParams) => WeaviateClient>;
@@ -9,7 +9,7 @@ describe("createWeaviateClient", () => {
     const palmApiKey = "testPalmApiKey";
 
     beforeAll(() => {
-        mockedClient = jest.spyOn(weaviate, 'client');
+    mockedClient = jest.spyOn(weaviate.default, "client");
         mockedClient.mockReturnValue({} as WeaviateClient);
     });
 
