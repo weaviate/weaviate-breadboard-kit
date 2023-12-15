@@ -16,7 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "@google-labs/breadboard": "^0.6.0",
-    "weaviate-ts-client": "^1.6.0"
+    "weaviate-ts-client": "^2.0.0"
   },
   "devDependencies": {
     "@types/dockerode": "^3.3.21",
