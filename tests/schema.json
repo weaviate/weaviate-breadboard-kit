@@ -1,11 +1,10 @@
 {
     "class": "Book",
-    "vectorizer": "text2vec-palm",
+    "vectorizer": "text2vec-transformers",
     "moduleConfig": {
-        "text2vec-palm": {
-            "apiEndpoint": "generativelanguage.googleapis.com",
-            "modelId": "embedding-gecko-001"
-        }
+        "text2vec-transformers": {
+            "vectorizeClassName": false
+          }
     },
     "properties": [
         {
