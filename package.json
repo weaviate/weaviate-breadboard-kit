@@ -14,7 +14,7 @@
     "start": "tsc-watch --onsuccess \"node dist/src/index.js\""
   },
   "author": "Mohd Shukri Hasan",
-  "license": "ISC",
+  "license": "SEE LICENSE IN LICENSE",
   "dependencies": {
     "@google-labs/breadboard": "^0.6.0",
     "@microsoft/api-extractor": "^7.38.5",
