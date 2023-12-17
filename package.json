@@ -38,5 +38,17 @@
     "tsc-watch": "^6.0.4",
     "tsup": "^8.0.1",
     "typescript": "^5.2.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/weaviate/weaviate-breadboard-kit.git"
+  },
+  "keywords": [
+    "weaviate",
+    "breadboard",
+    "google"
+  ],
+  "bugs": {
+    "url": "https://github.com/weaviate/weaviate-breadboard-kit/issues"
   }
 }
