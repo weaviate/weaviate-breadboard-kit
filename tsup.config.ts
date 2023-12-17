@@ -4,7 +4,7 @@ export default defineConfig({
 	cjsInterop: true,
 	clean: true,
 	dts: true,
-	entry: ["src/**/*.ts"],
+	entry: ["src/index.ts"],
 	external: [/^@google-labs\/.*/],
 	format: ["cjs", "esm", "iife"],
 	metafile: true,

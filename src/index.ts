@@ -19,5 +19,3 @@ const WeaviateKit = builder.build({
 export default WeaviateKit;
 // Necessary for TypeScript to recognize the type of the Kit
 export type WeaviateKit = InstanceType<typeof WeaviateKit>;
-// Optionally, export it as a named export
-export { WeaviateKit };
