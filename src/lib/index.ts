@@ -1,4 +1,4 @@
-import { InputValues } from "@google-labs/breadboard";
+import { InputValues, OutputValues } from "@google-labs/breadboard";
 import fs from "fs/promises";
 import { WeaviateClient } from "weaviate-ts-client";
 import { createWeaviateClient } from "./weaviate-client.js";
@@ -62,7 +62,12 @@ function countSuccessfulResults(results: Document[]) {
  *
  * @async
  */
-export async function index(inputs: InputValues) {
+export async function index(inputs: InputValues & {
+  dataFile: string;
+  weaviateHost: string;
+  className: string;
+  weaviateApiKey?: string;
+}): Promise<OutputValues & { totalIndexedDocuments: number; }> {
   validateInputs(inputs);
 
   const { dataFile, weaviateHost, className, weaviateApiKey } =
