@@ -70,4 +70,84 @@ describe("index node tests", () => {
         expect(result.totalIndexedDocuments).toBe(docCount);
     });
 
+    test("all documents end up in weaviate verbosely using separate inputs", async () => {
+        const inputs = {
+            dataFile: "./tests/data.json",
+            weaviateHost: "localhost:8080",
+            palmApiKey: process.env.PALM_APIKEY,
+            className: "Book",
+        };
+
+        const docs = JSON.parse(
+            await fs.readFile(inputs.dataFile.toString(), "utf-8"),
+        );
+        const docCount = docs.length;
+
+        const board = new Board();
+        const kit: WeaviateKit = board.addKit(WeaviateKit);
+
+        const index = kit.index();
+        (board.input({
+            schema: {
+                type: "object",
+                properties: {
+                    dataFile: {
+                        type: "string",
+                    },
+                },
+            },
+        })).wire("dataFile", index);
+
+        (board.input({
+            schema: {
+                type: "object",
+                properties: {
+                    weaviateHost: {
+                        type: "string",
+                    },
+                },
+            },
+        })).wire("weaviateHost", index);
+
+        (board.input({
+            schema: {
+                type: "object",
+                properties: {
+                    className: {
+                        type: "string",
+                    },
+                },
+            },
+        })).wire("className", index);
+
+        (board.input({
+            schema: {
+                type: "object",
+                properties: {
+                    palmApiKey: {
+                        type: "string",
+                    },
+                },
+            },
+        })).wire("palmApiKey->PALM_KEY", index);
+
+        index.wire("*", board.output());
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const results: any[] = [];
+        for await (const result of board.run({
+            // probe: new LogProbe(),
+        })) {
+            if (result.type === "input") {
+                result.inputs = inputs;
+            } else if (result.type === "output") {
+                results.push(result.outputs);
+            }
+        }
+        expect(results).toBeDefined();
+        expect(results).toBeInstanceOf(Array);
+        expect(results.length).toBeGreaterThan(0);
+        expect(results.some((result) => result.totalIndexedDocuments && result.totalIndexedDocuments === docCount)).toBe(true);
+    });
+});
 
