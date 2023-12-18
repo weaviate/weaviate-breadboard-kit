@@ -51,5 +51,16 @@
   ],
   "bugs": {
     "url": "https://github.com/weaviate/weaviate-breadboard-kit/issues"
+  },
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "node": "./dist/index.cjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
   }
 }
