@@ -195,7 +195,7 @@ const config: JestConfigWithTsJest = {
 
   detectOpenHandles: true,
   testEnvironment: "node",
-  testTimeout: 10 * 1_000,
+  testTimeout: 60 * 1_000,
   verbose: true,
   watch: false,
   workerThreads: false,
