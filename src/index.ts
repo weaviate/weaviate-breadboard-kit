@@ -15,7 +15,7 @@ const WeaviateKit = builder.build({
   query,
 });
 
+// Necessary for TypeScript to recognize the type of the Kit
+type WeaviateKit = InstanceType<typeof WeaviateKit>;
 // Necessary for Breadboard to import it as a Kit when loading boards
 export default WeaviateKit;
-// Necessary for TypeScript to recognize the type of the Kit
-export type WeaviateKit = InstanceType<typeof WeaviateKit>;
