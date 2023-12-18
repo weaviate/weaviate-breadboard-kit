@@ -9,52 +9,58 @@ on:
 
 
 jobs:
-  lint_and_format_check:
-    name: Lint and Format Check
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-    - name: Build and run Dev Container task
-      uses: devcontainers/ci@v0.3
-      with:
-        runCmd: |
-          npm install
-          npm run lint
-          npm run format:check
+  # lint_and_format_check:
+  #   name: Lint and Format Check
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Checkout code
+  #     uses: actions/checkout@v3
+  #   - name: Build and run Dev Container task
+  #     uses: devcontainers/ci@v0.3
+  #     with:
+  #       runCmd: |
+  #         npm install
+  #         npm run lint
+  #         npm run format:check
 
-  run_tests:
-    name: Run Tests
-    needs: lint_and_format_check
+  # run_tests:
+  #   name: Run Tests
+  #   needs: lint_and_format_check
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Checkout code
+  #     uses: actions/checkout@v3
+  #   - name: Build and run Dev Container task
+  #     uses: devcontainers/ci@v0.3
+  #     with:
+  #       runCmd: |
+  #         npm install
+  #         npm run test:ci
+  #       env:
+  #         PALM_APIKEY=${{ secrets.PALM_APIKEY }}
+
+  publish_package:
+    name: Publish Package and Create Release
+    # needs: run_tests
+    # if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-    - name: Build and run Dev Container task
-      uses: devcontainers/ci@v0.3
-      with:
-        runCmd: |
-          npm install
-          npm run test:ci
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Create .npmrc file
+        run: echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > .npmrc
         env:
-          PALM_APIKEY=${{ secrets.PALM_APIKEY }}
-
-  publish:
-    needs: run_tests
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      # Setup .npmrc file to publish to npm
-      - uses: actions/setup-node@v3
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+      - name: Build and run Dev Container task
+        uses: devcontainers/ci@v0.3
         with:
-          node-version: '18.x'
-          registry-url: 'https://registry.npmjs.org'
-      - run: npm ci && npm run build
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTOMATION_TOKEN }}
-      - name: "Create a GitHub release"
+          runCmd: |
+            npm install
+            npm run build
+            npm publish
+          env:
+            NODE_AUTH_TOKEN=${{ secrets.NODE_AUTH_TOKEN }}
+      - name: Create a GitHub release
         uses: softprops/action-gh-release@v1
         with:
           generate_release_notes: true

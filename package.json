@@ -1,5 +1,5 @@
 {
-  "name": "weaviate-kit",
+  "name": "weaviate-breadboard-kit",
   "type": "module",
   "version": "0.0.1",
   "description": "A collection of Breadboard nodes for working with Weaviate",
