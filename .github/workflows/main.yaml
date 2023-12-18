@@ -35,7 +35,7 @@ jobs:
       with:
         runCmd: |
           npm install
-          npm run test:ci
+          npm run test
         env:
           PALM_APIKEY=${{ secrets.PALM_APIKEY }}
 

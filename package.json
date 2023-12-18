@@ -10,8 +10,7 @@
     "format": "prettier --write \"src/**/*.{ts,tsx}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx}\"",
     "lint": "eslint 'src/**/*.{ts,tsx}' --fix",
-    "test": "node --experimental-vm-modules node_modules/.bin/jest --runInBand --watchAll",
-    "test:ci": "node --experimental-vm-modules node_modules/.bin/jest --runInBand",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest --runInBand",
     "start": "tsc-watch --onsuccess \"node dist/src/index.js\""
   },
   "author": "Mohd Shukri Hasan",
