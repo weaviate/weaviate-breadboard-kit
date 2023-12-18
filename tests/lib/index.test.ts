@@ -23,7 +23,6 @@ describe("index node tests", () => {
         const inputs = {
             dataFile: "./tests/data.json",
             weaviateHost: "localhost:8080",
-            palmApiKey: process.env.PALM_APIKEY,
             className: "Book",
         };
 

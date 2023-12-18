@@ -58,13 +58,11 @@ export async function query(
     className,
     fields,
     weaviateApiKey,
-    PALM_KEY,
     rawQuery,
   } = inputs;
 
   const client = createWeaviateClient(
     weaviateHost.toString(),
-    PALM_KEY.toString(),
     weaviateApiKey ? weaviateApiKey.toString() : undefined,
   );
 

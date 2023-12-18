@@ -42,7 +42,7 @@ describe("createWeaviateClient", () => {
         const url = "https://demo-breadboard-61k1eala.weaviate.network";
         const weaviateApiKey = "testApiKey";
 
-        createWeaviateClient(url, palmApiKey, weaviateApiKey);
+      createWeaviateClient(url, weaviateApiKey);
 
         expect(mockedClient).toHaveBeenCalledWith(
             expect.objectContaining({

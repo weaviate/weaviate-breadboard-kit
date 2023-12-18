@@ -12,7 +12,6 @@ import weaviate, { ApiKey, WeaviateClient } from "weaviate-ts-client";
  */
 export function createWeaviateClient(
   weaviateUrl: string,
-  palmApiKey: string,
   weaviateApiKey?: string,
 ): WeaviateClient {
   if (
@@ -31,13 +30,11 @@ export function createWeaviateClient(
       scheme: scheme,
       host: host,
       apiKey: new ApiKey(weaviateApiKey),
-      headers: { "X-Palm-Api-Key": palmApiKey },
     });
   } else {
     return weaviate.client({
       scheme: scheme,
       host: host,
-      headers: { "X-Palm-Api-Key": palmApiKey },
     });
   }
 }
