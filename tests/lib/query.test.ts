@@ -15,7 +15,7 @@ afterEach(async () => {
     if (weaviateTestManager.environment) {
         await weaviateTestManager.environment.down();
     }
-});
+}, 10000);
 
 describe("query node tests", () => {
     test("search Harry Potter using vector search", async () => {

@@ -1,28 +1,28 @@
 import { InputValues, NodeValue, OutputValues } from "@google-labs/breadboard";
 import { GraphQLGetter, Raw } from "weaviate-ts-client";
-import { createWeaviateClient } from "./weaviate-client";
+import { createWeaviateClient } from "./weaviate-client.js";
 
 function validateInputs(inputs: InputValues) {
-    if (!('weaviateHost' in inputs)) {
-        throw new Error('weaviateHost is missing in inputs');
-    }
+  if (!("weaviateHost" in inputs)) {
+    throw new Error("weaviateHost is missing in inputs");
+  }
 
-    if ('rawQuery' in inputs) {
-        return
-    }
+  if ("rawQuery" in inputs) {
+    return;
+  }
 
-    if (!('query' in inputs)) {
-        throw new Error('query is missing in inputs');
-    }
-    if (!('alpha' in inputs)) {
-        throw new Error('alpha is missing in inputs');
-    }
-    if (!('className' in inputs)) {
-        throw new Error('className is missing in inputs');
-    }
-    if (!('fields' in inputs)) {
-        throw new Error('fields is missing in inputs');
-    }
+  if (!("query" in inputs)) {
+    throw new Error("query is missing in inputs");
+  }
+  if (!("alpha" in inputs)) {
+    throw new Error("alpha is missing in inputs");
+  }
+  if (!("className" in inputs)) {
+    throw new Error("className is missing in inputs");
+  }
+  if (!("fields" in inputs)) {
+    throw new Error("fields is missing in inputs");
+  }
 }
 
 /**
@@ -36,7 +36,7 @@ function validateInputs(inputs: InputValues) {
  *   - fields: A string of fields to return in the query results.
  *   - weaviateApiKey: The API key to use to authenticate with the Weaviate instance.
  *   - PALM_KEY: The API key to use to authenticate to the Google PaLM API service.
- *   - rawQuery: A weaviate graphql get query to execute instead of a hybrid search query. It is unnecessary to provide the 
+ *   - rawQuery: A weaviate graphql get query to execute instead of a hybrid search query. It is unnecessary to provide the
  *               other search inputs if this is provided.
  *
  * @returns {Promise<{searchResults: OutputValues}>} - A promise that resolves to an object containing the search results.
@@ -46,43 +46,52 @@ function validateInputs(inputs: InputValues) {
  *
  * @async
  */
-export async function query(inputs: InputValues): Promise<{ searchResults: OutputValues }> {
-    validateInputs(inputs);
+export async function query(
+  inputs: InputValues,
+): Promise<{ searchResults: OutputValues }> {
+  validateInputs(inputs);
 
-    const { weaviateHost, query, alpha, className, fields, weaviateApiKey, PALM_KEY, rawQuery } = inputs;
+  const {
+    weaviateHost,
+    query,
+    alpha,
+    className,
+    fields,
+    weaviateApiKey,
+    PALM_KEY,
+    rawQuery,
+  } = inputs;
 
-    const client = createWeaviateClient(
-        weaviateHost.toString(),
-        PALM_KEY.toString(),
-        weaviateApiKey ? weaviateApiKey.toString() : undefined
-    );
+  const client = createWeaviateClient(
+    weaviateHost.toString(),
+    PALM_KEY.toString(),
+    weaviateApiKey ? weaviateApiKey.toString() : undefined,
+  );
 
-    let q: GraphQLGetter | Raw;
-    if (rawQuery) {
-        q = client.graphql.raw().withQuery(rawQuery.toString());
-    }
-    else {
-        q = client.graphql
-            .get()
-            .withClassName(className.toString())
-            .withFields(fields.toString())
-            .withHybrid({
-                query: query.toString(),
-                alpha: Number(alpha.valueOf())
-            });
-    }
+  let q: GraphQLGetter | Raw;
+  if (rawQuery) {
+    q = client.graphql.raw().withQuery(rawQuery.toString());
+  } else {
+    q = client.graphql
+      .get()
+      .withClassName(className.toString())
+      .withFields(fields.toString())
+      .withHybrid({
+        query: query.toString(),
+        alpha: Number(alpha.valueOf()),
+      });
+  }
 
+  try {
+    const results = await q.do();
 
-    try {
+    const searchResults = Object.values(results.data.Get)[0] as Partial<
+      Record<string, NodeValue>
+    >;
 
-        const results = await q.do();
-
-        const searchResults = Object.values(results.data.Get)[0] as Partial<Record<string, NodeValue>>;
-
-        return { "searchResults": searchResults };
-
-    } catch (error) {
-        console.error(`Failed to execute query: ${error}`);
-        throw error;
-    }
+    return { searchResults: searchResults };
+  } catch (error) {
+    console.error(`Failed to execute query: ${error}`);
+    throw error;
+  }
 }

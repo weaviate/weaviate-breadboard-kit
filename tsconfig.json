@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "composite": true,
+    "composite": false,
     "esModuleInterop": true,
     "module": "ES2022",
     "moduleResolution": "Bundler",
