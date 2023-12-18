@@ -1,3 +1,5 @@
+name: Lint, Format, Test, and Publish
+
 on:
   push:
     branches:
