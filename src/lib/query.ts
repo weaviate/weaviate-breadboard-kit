@@ -35,7 +35,6 @@ function validateInputs(inputs: InputValues) {
  *   - className: The name of the class in Weaviate to query.
  *   - fields: A string of fields to return in the query results.
  *   - weaviateApiKey: The API key to use to authenticate with the Weaviate instance.
- *   - PALM_KEY: The API key to use to authenticate to the Google PaLM API service.
  *   - rawQuery: A weaviate graphql get query to execute instead of a hybrid search query. It is unnecessary to provide the
  *               other search inputs if this is provided.
  *
@@ -58,13 +57,11 @@ export async function query(
     className,
     fields,
     weaviateApiKey,
-    PALM_KEY,
     rawQuery,
   } = inputs;
 
   const client = createWeaviateClient(
     weaviateHost.toString(),
-    PALM_KEY.toString(),
     weaviateApiKey ? weaviateApiKey.toString() : undefined,
   );
 

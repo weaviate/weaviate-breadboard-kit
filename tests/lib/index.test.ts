@@ -23,7 +23,6 @@ describe("index node tests", () => {
         const inputs = {
             dataFile: "./tests/data.json",
             weaviateHost: "localhost:8080",
-            palmApiKey: process.env.PALM_APIKEY,
             className: "Book",
         };
 
@@ -49,16 +48,12 @@ describe("index node tests", () => {
                     className: {
                         type: "string",
                     },
-                    palmApiKey: {
-                        type: "string",
-                    },
                 },
             },
         });
         input.wire("dataFile", index);
         input.wire("weaviateHost", index);
         input.wire("className", index);
-        input.wire("palmApiKey->PALM_KEY", index);
 
         index.wire("*", board.output());
 
@@ -74,7 +69,6 @@ describe("index node tests", () => {
         const inputs = {
             dataFile: "./tests/data.json",
             weaviateHost: "localhost:8080",
-            palmApiKey: process.env.PALM_APIKEY,
             className: "Book",
         };
 
@@ -119,17 +113,6 @@ describe("index node tests", () => {
                 },
             },
         })).wire("className", index);
-
-        (board.input({
-            schema: {
-                type: "object",
-                properties: {
-                    palmApiKey: {
-                        type: "string",
-                    },
-                },
-            },
-        })).wire("palmApiKey->PALM_KEY", index);
 
         index.wire("*", board.output());
 

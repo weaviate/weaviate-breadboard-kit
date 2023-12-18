@@ -21,7 +21,6 @@ describe("query node tests", () => {
     test("search Harry Potter using vector search", async () => {
         const inputs = {
             weaviateHost: "localhost:8080",
-            palmApiKey: process.env.PALM_APIKEY,
             query: `
                 a novice sorcerer uncovering his mystical lineage 
                 while confronting adversities in his inaugural year 
@@ -56,10 +55,7 @@ describe("query node tests", () => {
                         type: "string",
                     },
                     fields: {
-                        type: "string",
-                    },
-                    palmApiKey:{
-                        type: "string",
+                      type: "string",
                     }
                 },
             },
@@ -69,8 +65,7 @@ describe("query node tests", () => {
         input.wire("query", query);
         input.wire("alpha", query);
         input.wire("className", query);
-        input.wire("fields", query);
-        input.wire("palmApiKey->PALM_KEY", query);
+      input.wire("fields", query);
 
         query.wire("*", board.output());
 
@@ -86,8 +81,7 @@ describe("query node tests", () => {
 
     test("search using raw graphql query", async () => {
         const inputs = {
-            weaviateHost: "localhost:8080",
-            palmApiKey: process.env.PALM_APIKEY,
+          weaviateHost: "localhost:8080",
             rawQuery: `
             {
                 Get {
@@ -120,16 +114,12 @@ describe("query node tests", () => {
                     },
                     rawQuery: {
                         type: "string",
-                    },
-                    palmApiKey:{
-                        type: "string",
-                    }
+                  },
                 },
             },
         });
         input.wire("weaviateHost", query);
-        input.wire("rawQuery", query);
-        input.wire("palmApiKey->PALM_KEY", query);
+      input.wire("rawQuery", query);
 
         query.wire("*", board.output());
 
