@@ -48,9 +48,10 @@ describe("query node tests", () => {
             .wire("->searchResults", board.output());
 
         const results = await board.runOnce(inputs);
-        const actualTitle = results.searchResults[0].title;
-
-        expect(actualTitle).toEqual(expectedTitle);
+        expect(results.searchResults).toBeDefined();
+        expect(results.searchResults).toBeInstanceOf(Array);
+        expect((results.searchResults as []).length).toBeGreaterThan(0);
+        expect(results.searchResults![0].title).toEqual(expectedTitle);
     });
 
     test("search using raw graphql query", async () => {
@@ -86,8 +87,9 @@ describe("query node tests", () => {
             .wire("->searchResults", board.output());
 
         const results = await board.runOnce(inputs);
-        const actualTitle = results.searchResults[0].title;
-
-        expect(actualTitle).toEqual(expectedTitle);
+        expect(results.searchResults).toBeDefined();
+        expect(results.searchResults).toBeInstanceOf(Array);
+        expect((results.searchResults as []).length).toBeGreaterThan(0);
+        expect(results.searchResults![0].title).toEqual(expectedTitle);
     });
 });
