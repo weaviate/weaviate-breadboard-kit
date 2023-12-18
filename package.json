@@ -51,5 +51,9 @@
   ],
   "bugs": {
     "url": "https://github.com/weaviate/weaviate-breadboard-kit/issues"
-  }
+  },
+  "engines": {
+    "node": ">=19"
+  },
+  "engineStrict": true
 }
