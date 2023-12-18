@@ -7,13 +7,13 @@ type Document = Record<string, unknown>;
 
 // Function to validate inputs
 function validateInputs(inputs: InputValues) {
-  if (!("dataFile" in inputs)) {
+  if (!("dataFile" in inputs && typeof inputs.dataFile === "string" && inputs.dataFile.length > 0)) {
     throw new Error("dataFile is missing in inputs");
   }
-  if (!("weaviateHost" in inputs)) {
+  if (!("weaviateHost" in inputs && typeof inputs.weaviateHost === "string" && inputs.weaviateHost.length > 0)) {
     throw new Error("weaviateHost is missing in inputs");
   }
-  if (!("className" in inputs)) {
+  if (!("className" in inputs && typeof inputs.className === "string" && inputs.className.length > 0)) {
     throw new Error("className is missing in inputs");
   }
 }
