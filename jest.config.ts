@@ -199,6 +199,12 @@ const config: JestConfigWithTsJest = {
   verbose: true,
   watch: false,
   workerThreads: false,
+
+  collectCoverageFrom: [
+    "src/**/*.ts",
+    "!src/**/*.test.ts",
+    "!src/**/*.d.ts",
+  ],
 };
 
 export default config;
