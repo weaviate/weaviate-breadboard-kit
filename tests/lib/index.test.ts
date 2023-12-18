@@ -32,21 +32,42 @@ describe("index node tests", () => {
 
 
         const board = new Board();
-        const kit = board.addKit(WeaviateKit);
+        const kit: WeaviateKit = board.addKit(WeaviateKit);
 
-        kit
-            .index()
-            .wire("dataFile<-", board.input())
-            .wire("weaviateHost<-", board.input())
-            .wire("PALM_KEY<-palmApiKey", board.input())
-            .wire("className<-", board.input())
-            .wire("->totalIndexedDocuments", board.output());
+        const index = kit.index();
 
-        const results = await board.runOnce(inputs);
-        expect(results.totalIndexedDocuments).toBe(docCount);
+        const input = board.input({
+            schema: {
+                type: "object",
+                properties: {
+                    dataFile: {
+                        type: "string",
+                    },
+                    weaviateHost: {
+                        type: "string",
+                    },
+                    className: {
+                        type: "string",
+                    },
+                    palmApiKey: {
+                        type: "string",
+                    },
+                },
+            },
+        });
+        input.wire("dataFile", index);
+        input.wire("weaviateHost", index);
+        input.wire("className", index);
+        input.wire("palmApiKey->PALM_KEY", index);
+
+        index.wire("*", board.output());
+
+        const result = await board.runOnce(inputs);
+
+        expect(result).toBeDefined();
+        expect(result).toBeInstanceOf(Object);
+        expect(result.totalIndexedDocuments).toBeDefined();
+        expect(result.totalIndexedDocuments).toBe(docCount);
     });
-
-    // Add more tests for the "index" node here
-});
 
 
