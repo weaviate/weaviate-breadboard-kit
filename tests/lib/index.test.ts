@@ -32,7 +32,7 @@ describe("index node tests", () => {
 
 
         const board = new Board();
-        const kit = board.addKit(WeaviateKit);
+        const kit: WeaviateKit = board.addKit(WeaviateKit);
 
         kit
             .index()
