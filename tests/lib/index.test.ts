@@ -16,7 +16,7 @@ afterEach(async () => {
     if (weaviateTestManager.environment) {
         await weaviateTestManager.environment.down();
     }
-});
+}, 10000);
 
 describe("index node tests", () => {
     test("all documents end up in weaviate", async () => {
