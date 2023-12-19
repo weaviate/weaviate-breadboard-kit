@@ -4,25 +4,24 @@ import { WeaviateTestManager } from "../testUtils";
 import fs from 'fs/promises';
 
 
-const weaviateTestManager = new WeaviateTestManager();
-
-beforeEach(async () => {
-    await weaviateTestManager.deployWeaviate();
-
-});
-
-afterEach(async () => {
-
-    if (weaviateTestManager.environment) {
-        await weaviateTestManager.environment.down();
-    }
-}, 10000);
-
 describe("index node tests", () => {
+    let weaviateTestManager: WeaviateTestManager;
+
+    beforeEach(async () => {
+        weaviateTestManager = new WeaviateTestManager();
+        await weaviateTestManager.deployWeaviate();
+    });
+
+    afterEach(async () => {
+        if (weaviateTestManager.environment) {
+            await weaviateTestManager.environment.down();
+        }
+    });
+
     test("all documents end up in weaviate", async () => {
         const inputs = {
             dataFile: "./tests/data.json",
-            weaviateHost: "localhost:8080",
+            weaviateHost: weaviateTestManager.host,
             palmApiKey: process.env.PALM_APIKEY,
             className: "Book",
         };
@@ -44,6 +43,7 @@ describe("index node tests", () => {
 
         const results = await board.runOnce(inputs);
         expect(results.totalIndexedDocuments).toBe(docCount);
+       
     });
 
     // Add more tests for the "index" node here
