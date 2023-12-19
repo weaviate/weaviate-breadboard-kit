@@ -1,8 +1,8 @@
 # A Breadboard Kit for Weaviate
 
-This is a kit to use weaviate with [breadboard](https://github.com/breadboard-ai/breadboard/)
+This is a kit to use weaviate with [breadboard](https://github.com/breadboard-ai/breadboard/).
 
-This kit is a an early prototype, and is very likely to change
+This kit is a an early prototype, and is very likely to change.
 
 # Installation
 
