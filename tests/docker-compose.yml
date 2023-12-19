@@ -2,6 +2,7 @@
 version: '3.4'
 services:
   weaviate:
+    container_name: weaviate_1
     command:
     - --host
     - 0.0.0.0
