@@ -35,22 +35,53 @@ describe("query node tests", () => {
         const expectedTitle = "Harry Potter and the Sorcerer's Stone";
 
         const board = new Board();
-        const kit = board.addKit(WeaviateKit);
+        const kit: WeaviateKit = board.addKit(WeaviateKit);
 
-        kit
-            .query()
-            .wire("weaviateHost<-", board.input())
-            .wire("PALM_KEY<-palmApiKey", board.input())
-            .wire("query<-", board.input())
-            .wire("alpha<-", board.input())
-            .wire("className<-", board.input())
-            .wire("fields<-", board.input())
-            .wire("->searchResults", board.output());
+        const query = kit.query();
+
+        const input = board.input({
+            schema: {
+                type: "object",
+                properties: {
+                    weaviateHost: {
+                        type: "string",
+                    },
+                    query: {
+                        type: "string",
+                    },
+                    alpha: {
+                        type: "number",
+                    },
+                    className: {
+                        type: "string",
+                    },
+                    fields: {
+                        type: "string",
+                    },
+                    palmApiKey:{
+                        type: "string",
+                    }
+                },
+            },
+        });
+
+        input.wire("weaviateHost", query);
+        input.wire("query", query);
+        input.wire("alpha", query);
+        input.wire("className", query);
+        input.wire("fields", query);
+        input.wire("palmApiKey->PALM_KEY", query);
+
+        query.wire("*", board.output());
 
         const results = await board.runOnce(inputs);
-        const actualTitle = results.searchResults[0].title;
 
-        expect(actualTitle).toEqual(expectedTitle);
+        expect(results).toBeDefined();
+        expect(results).toBeInstanceOf(Object);
+        expect(results.searchResults).toBeDefined();
+        expect(results.searchResults).toBeInstanceOf(Array);
+        expect((results.searchResults as []).length).toBeGreaterThan(0);
+        expect(results.searchResults![0].title).toEqual(expectedTitle);
     });
 
     test("search using raw graphql query", async () => {
@@ -76,18 +107,39 @@ describe("query node tests", () => {
         const expectedTitle = "To Kill a Mockingbird";
 
         const board = new Board();
-        const kit = board.addKit(WeaviateKit);
+        const kit: WeaviateKit = board.addKit(WeaviateKit);
 
-        kit
-            .query()
-            .wire("weaviateHost<-", board.input())
-            .wire("PALM_KEY<-palmApiKey", board.input())
-            .wire("rawQuery<-", board.input())
-            .wire("->searchResults", board.output());
+        const query = kit.query();
+
+        const input = board.input({
+            schema: {
+                type: "object",
+                properties: {
+                    weaviateHost: {
+                        type: "string",
+                    },
+                    rawQuery: {
+                        type: "string",
+                    },
+                    palmApiKey:{
+                        type: "string",
+                    }
+                },
+            },
+        });
+        input.wire("weaviateHost", query);
+        input.wire("rawQuery", query);
+        input.wire("palmApiKey->PALM_KEY", query);
+
+        query.wire("*", board.output());
 
         const results = await board.runOnce(inputs);
-        const actualTitle = results.searchResults[0].title;
 
-        expect(actualTitle).toEqual(expectedTitle);
+        expect(results).toBeDefined();
+        expect(results).toBeInstanceOf(Object);
+        expect(results.searchResults).toBeDefined();
+        expect(results.searchResults).toBeInstanceOf(Array);
+        expect((results.searchResults as []).length).toBeGreaterThan(0);
+        expect(results.searchResults![0].title).toEqual(expectedTitle);
     });
 });
