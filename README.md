@@ -4,6 +4,14 @@ This is a kit to use weaviate with [breadboard](https://github.com/breadboard-ai
 
 This kit is a an early prototype, and is very likely to change
 
+# Installation
+
+Run the following command to install the kit:
+
+```bash
+npm install weaviate-breadboard-kit
+```
+
 # Contributing
 
 Update the necessary credentials in [`devcontainer.json`](.devcontainer/devcontainer.json) e.g. PaLM API key, and then rebuild the devcontainer.
