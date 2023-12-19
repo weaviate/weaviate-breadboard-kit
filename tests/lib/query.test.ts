@@ -19,7 +19,7 @@ describe("query node tests", () => {
 
     test("search Harry Potter using vector search", async () => {
         const inputs = {
-            weaviateHost: "localhost:8080",
+            weaviateHost: weaviateTestManager.host,
             palmApiKey: process.env.PALM_APIKEY,
             query: `
                 a novice sorcerer uncovering his mystical lineage 
@@ -54,7 +54,7 @@ describe("query node tests", () => {
 
     test("search using raw graphql query", async () => {
         const inputs = {
-            weaviateHost: "localhost:8080",
+            weaviateHost: weaviateTestManager.host,
             palmApiKey: process.env.PALM_APIKEY,
             rawQuery: `
             {

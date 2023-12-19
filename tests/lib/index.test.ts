@@ -21,7 +21,7 @@ describe("index node tests", () => {
     test("all documents end up in weaviate", async () => {
         const inputs = {
             dataFile: "./tests/data.json",
-            weaviateHost: "localhost:8080",
+            weaviateHost: weaviateTestManager.host,
             palmApiKey: process.env.PALM_APIKEY,
             className: "Book",
         };
