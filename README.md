@@ -127,6 +127,12 @@ const results = await board.runOnce(inputs);
 
 ```
 
+# Feedback
+
+We would love to hear your feedback on this kit. 
+
+Please raise an issue in this repo if you have any feedback, questions, feature requests or bug reports.
+
 # Contributing
 
 You can use the provided devcontainer to create a local environment to develop, build, test and run the kit.
