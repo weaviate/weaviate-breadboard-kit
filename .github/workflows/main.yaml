@@ -38,8 +38,6 @@ jobs:
         runCmd: |
           npm install
           npm run test:ci
-        env:
-          PALM_APIKEY=${{ secrets.PALM_APIKEY }}
 
   publish_package:
     name: Publish Package and Create Release

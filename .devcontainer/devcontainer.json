@@ -21,8 +21,7 @@
 			]
 		}
 	},
-	"containerEnv": {
-		"PALM_APIKEY": "<YOUR_PALM_API_KEY>"
+  "containerEnv": {
 	}
 
 	// Features to add to the dev container. More info: https://containers.dev/features.

@@ -4,7 +4,6 @@ import weaviate, { ApiKey, WeaviateClient } from "weaviate-ts-client";
  * Creates a Weaviate client with the specified Weaviate URL and optional API key.
  *
  * @param weaviateUrl The URL of the Weaviate instance to connect to.
- * @param palmApiKey The API key to authenticate into the Google PaLM API service.
  * @param weaviateApiKey The API key to authenticate into the weaviate instance (optional).
  * @returns The Weaviate client.
  *
@@ -12,7 +11,6 @@ import weaviate, { ApiKey, WeaviateClient } from "weaviate-ts-client";
  */
 export function createWeaviateClient(
   weaviateUrl: string,
-  palmApiKey: string,
   weaviateApiKey?: string,
 ): WeaviateClient {
   if (
@@ -31,13 +29,11 @@ export function createWeaviateClient(
       scheme: scheme,
       host: host,
       apiKey: new ApiKey(weaviateApiKey),
-      headers: { "X-Palm-Api-Key": palmApiKey },
     });
   } else {
     return weaviate.client({
       scheme: scheme,
       host: host,
-      headers: { "X-Palm-Api-Key": palmApiKey },
     });
   }
 }

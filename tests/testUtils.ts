@@ -20,7 +20,6 @@ export class WeaviateTestManager {
         this.client = weaviate.client({
             scheme: this.scheme,
             host: this.host,
-            headers: { "X-Palm-Api-Key": process.env.PALM_APIKEY }
         });
     }
 
@@ -60,11 +59,12 @@ export class WeaviateTestManager {
      * @param {string} composeFile - The name of the Docker Compose file. Defaults to "docker-compose.yml".
      */
     public async deployWeaviate(composeFilePath: string = "tests", composeFile: string = "docker-compose.yml") {
+        const CONTAINER_NAME = "weaviate_1";
         this.environment = await new DockerComposeEnvironment(composeFilePath, composeFile)
-            .withWaitStrategy("weaviate", Wait.forHttp("/v1/.well-known/ready", 8080))
+            .withWaitStrategy(CONTAINER_NAME, Wait.forHttp("/v1/.well-known/ready", 8080))
             .up();
 
-        this.host = `${this.environment.getContainer("weaviate_1").getHost()}:8080`;
+        this.host = `${this.environment.getContainer(CONTAINER_NAME).getHost()}:8080`;
         this.scheme = "http";
         this.createClient();
         await this.createSchema();
