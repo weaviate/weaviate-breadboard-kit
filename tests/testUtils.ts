@@ -10,7 +10,7 @@ import { DockerComposeEnvironment, StartedDockerComposeEnvironment, Wait } from 
 export class WeaviateTestManager {
     public client: WeaviateClient;
     public environment: StartedDockerComposeEnvironment;
-    private host: string;
+    public host: string;
     private scheme: string;
 
     /**
@@ -64,7 +64,11 @@ export class WeaviateTestManager {
             .withWaitStrategy("weaviate", Wait.forHttp("/v1/.well-known/ready", 8080))
             .up();
 
-        this.host = `${this.environment.getContainer("weaviate_1").getHost()}:8080`;
+        const weaviateContainer = this.environment.getContainer("weaviate_1");
+        const host = weaviateContainer.getHost();
+        const port = weaviateContainer.getMappedPort(8080);
+
+        this.host = `${host}:${port}`;
         this.scheme = "http";
         this.createClient();
         await this.createSchema();
