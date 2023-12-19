@@ -129,7 +129,9 @@ const results = await board.runOnce(inputs);
 
 # Contributing
 
-Update the necessary credentials in [`devcontainer.json`](.devcontainer/devcontainer.json) e.g. PaLM API key, and then rebuild the devcontainer.
+You can use the provided devcontainer to create a local environment to develop, build, test and run the kit.
+
+Simply update the relevant credentials in [`devcontainer.json`](.devcontainer/devcontainer.json) e.g. PaLM API key, and then rebuild the devcontainer.
 
 # Making a new release
 
