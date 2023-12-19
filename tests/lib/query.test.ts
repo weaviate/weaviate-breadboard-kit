@@ -2,22 +2,21 @@ import { Board } from "@google-labs/breadboard";
 import WeaviateKit from "../../src/index";
 import { WeaviateTestManager } from "../testUtils";
 
-const weaviateTestManager = new WeaviateTestManager();
-
-beforeEach(async () => {
-    await weaviateTestManager.deployWeaviate();
-    await weaviateTestManager.importData();
-
-});
-
-afterEach(async () => {
-
-    if (weaviateTestManager.environment) {
-        await weaviateTestManager.environment.down();
-    }
-}, 10000);
-
 describe("query node tests", () => {
+    let weaviateTestManager: WeaviateTestManager;
+
+    beforeEach(async () => {
+        weaviateTestManager = new WeaviateTestManager();
+        await weaviateTestManager.deployWeaviate();
+        await weaviateTestManager.importData();
+    });
+
+    afterEach(async () => {
+        if (weaviateTestManager.environment) {
+            await weaviateTestManager.environment.down();
+        }
+    });
+
     test("search Harry Potter using vector search", async () => {
         const inputs = {
             weaviateHost: "localhost:8080",
