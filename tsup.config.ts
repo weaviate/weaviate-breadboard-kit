@@ -13,5 +13,5 @@ export default defineConfig({
 	sourcemap: true,
 	splitting: false,
 	treeshake: true,
-	tsconfig: "tsconfig.publish.json",
+	tsconfig: "tsconfig.json",
 });
